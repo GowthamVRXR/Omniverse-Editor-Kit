@@ -58,7 +58,11 @@ fetch."platform:linux-x86_64".before_pull_commands = [
 
 # Mute this command, don't emit to console.
 fetch."platform:windows-x86_64".before_pull_commands = [
-    ["powershell", "-Command", "New-Item -ItemType Directory -Path ${root}/source/apps -ErrorAction SilentlyContinue", ";", "Write-Host 'Done'"],
+    ["powershell", "-Command", "New-Item -ItemType Directory -Path '${root}/source/apps' -ErrorAction SilentlyContinue", ";", "Write-Host 'Done'"],
+]
+
+fetch.after_pull_commands = [
+    ["cmd.exe", "/c", "${root}/repo.bat", "precache_exts", "-c", "${config}", "${precache_flag_0}"]
 ]
 
 # If caching do not try to cache extensions. These will come from the NGC Kit Extension Registry.
@@ -124,6 +128,7 @@ publish_pip_cache = false
 [repo_precache_exts]
 # Apps to run and precache
 apps = [
+    "${root}/source/apps/omniverse_editor/omniverse_editor.kit"
 ]
 
 # registries = [
